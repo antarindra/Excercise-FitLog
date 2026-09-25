@@ -43,13 +43,13 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
           
           <div className="flex items-center gap-3 text-xs text-gray-300 pt-1 font-semibold">
             <span className="flex items-center gap-1">
-              ⏱️ {item.duration} min
+               {item.duration} min
             </span>
             <span className="flex items-center gap-1">
-              🔥 {item.caloriesBurned} kcal
+             {item.caloriesBurned} kcal
             </span>
             <span className="flex items-center gap-1 text-yellow-400">
-              ⭐ {item.rating}
+               {item.rating}
             </span>
           </div>
         </div>
