@@ -22,7 +22,7 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
 }) => {
   return (
     <div className="bg-[#181920] border border-zinc-800/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all">
-      {/* Left Side: Image & Information */}
+      
       <div className="flex items-center gap-4">
         <div className="relative w-24 h-16 sm:w-28 sm:h-20 rounded-xl overflow-hidden bg-zinc-900 flex-shrink-0">
           <Image
