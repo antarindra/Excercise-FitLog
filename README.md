@@ -1,25 +1,6 @@
 # FitLog — Workout Library & Personal Planner
 
-2. **Install dependencies:**
-   **Bash**
-
-   ```
-   npm install
-   ```
-3. **Run the development server:**
-   **Bash**
-
-   ```
-   npm run dev
-   ```
-4. Open [http://localhost:3000](http://localhost:3000?utm_source=gemini) in your browser to view the application.
-
-## 📝 License
-
-This project is created for educational and personal portfolio purposes. Feel free to explore and build upon it!
-
 A modern, responsive, and intuitive web application designed to help fitness enthusiasts browse exercise routines, customize their daily workout plans, track total burnt calories, and organize saved exercises seamlessly.
-
 
 ## 🌐 Live Demo
 
@@ -59,11 +40,11 @@ Make sure you have Node.js (v18 or higher) installed.
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone [https://github.com/antarindra/fitlog.git](https://github.com/antarindra/fitlog.git)
    cd fitlog
    ```
-
 2. **Install dependencies:**
    **Bash**
 
