@@ -36,7 +36,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/"
-                className={pathname === '/workouts' || pathname === '/' ? activeClass : inactiveClass}
+                className={pathname === '/' || pathname === '/' ? activeClass : inactiveClass}
               >
                 Workouts
               </Link>
