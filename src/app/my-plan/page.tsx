@@ -6,12 +6,17 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import MyPlanCard from '@/components/MyPlanCard'; 
 
+type SortOption = 'duration' | 'calories' | 'ratings';
+
 export default function MyPlanPage() {
   const context = useContext(WorkoutContext);
 
   const [activeTab, setActiveTab] = useState<'plan' | 'saved'>('plan');
   const [loading, setLoading] = useState<boolean>(true);
   const [completedIds, setCompletedIds] = useState<string[]>([]);
+  
+  
+  const [sortBy, setSortBy] = useState<SortOption>('duration');
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 300);
@@ -24,12 +29,42 @@ export default function MyPlanPage() {
 
   const currentList = activeTab === 'plan' ? todaysPlan : saveForLater;
 
- 
-  const totalExercises = todaysPlan.length;
-  const totalMinutes = todaysPlan.reduce((acc, curr) => acc + (Number(curr.duration) || 0), 0);
-  const totalCalories = todaysPlan.reduce((acc, curr) => acc + (Number(curr.caloriesBurned) || 0), 0);
-
   
+  const totalExercises = currentList.length;
+  
+  const totalMinutes = currentList.reduce((acc, curr) => {
+    const duration = typeof curr.duration === 'string' ? parseInt(curr.duration) : curr.duration;
+    return acc + (Number(duration) || 0);
+  }, 0);
+
+  const totalCalories = currentList.reduce((acc, curr) => {
+    const calValue = curr.caloriesBurned !== undefined ? curr.caloriesBurned : curr.caloriesBurned;
+    const calories = typeof calValue === 'string' ? parseInt(calValue) : calValue;
+    return acc + (Number(calories) || 0);
+  }, 0);
+
+  // Sorting Logic
+  const sortedList = [...currentList].sort((a, b) => {
+    if (sortBy === 'duration') {
+      const durA = Number(typeof a.duration === 'string' ? parseInt(a.duration) : a.duration) || 0;
+      const durB = Number(typeof b.duration === 'string' ? parseInt(b.duration) : b.duration) || 0;
+      return durB - durA;
+    }
+    if (sortBy === 'calories') {
+      const calAVal = a.caloriesBurned !== undefined ? a.caloriesBurned : a.caloriesBurned;
+      const calBVal = b.caloriesBurned !== undefined ? b.caloriesBurned : b.caloriesBurned;
+      const calA = Number(typeof calAVal === 'string' ? parseInt(calAVal) : calAVal) || 0;
+      const calB = Number(typeof calBVal === 'string' ? parseInt(calBVal) : calBVal) || 0;
+      return calB - calA;
+    }
+    if (sortBy === 'ratings') {
+      const ratA = Number(a.rating) || 0;
+      const ratB = Number(b.rating) || 0;
+      return ratB - ratA;
+    }
+    return 0;
+  });
+
   const handleRemove = (id: string | number, name: string) => {
     if (activeTab === 'plan') {
       setTodaysPlan(todaysPlan.filter((item) => String(item.id) !== String(id)));
@@ -40,7 +75,6 @@ export default function MyPlanPage() {
     }
   };
 
-  
   const handleToggleDone = (id: string | number) => {
     const stringId = String(id);
     if (completedIds.includes(stringId)) {
@@ -65,7 +99,7 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-       
+        
         <div className="bg-[#181920] border border-zinc-800/80 rounded-2xl p-6 grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-zinc-800/60">
           <div className="pt-2 md:pt-0">
             <span className="text-gray-400 text-xs font-bold uppercase tracking-wider block mb-1">
@@ -112,14 +146,26 @@ export default function MyPlanPage() {
             </button>
           </div>
 
-          <div className="text-xs text-gray-400 font-semibold flex items-center gap-2 pr-3">
-            <span>Sort By</span>
-            <button className="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg text-white font-bold flex items-center gap-1.5">
-              Duration
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+          
+          <div className="flex items-center gap-2 pr-3">
+            <span className="text-gray-400 text-xs font-medium">Sort By</span>
+            <div className="relative inline-block">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="bg-[#121316] border border-zinc-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded-xl appearance-none pr-8 cursor-pointer outline-none hover:border-zinc-700 transition-colors capitalize"
+              >
+                <option value="duration">Duration</option>
+                <option value="calories">Calories</option>
+                <option value="ratings">Ratings</option>
+              </select>
+
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-gray-400">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -128,8 +174,7 @@ export default function MyPlanPage() {
           <div className="bg-[#181920] border border-zinc-800/80 rounded-2xl p-16 text-center text-gray-400 font-bold">
             Loading workouts…
           </div>
-        ) : currentList.length === 0 ? (
-        
+        ) : sortedList.length === 0 ? (
           <div className="bg-[#181920] border border-zinc-800/80 rounded-2xl p-16 text-center space-y-4">
             <h3 className="text-2xl font-black uppercase text-white tracking-wide">
               NOTHING HERE YET
@@ -147,9 +192,8 @@ export default function MyPlanPage() {
             </div>
           </div>
         ) : (
-        
           <div className="space-y-4">
-            {currentList.map((item) => (
+            {sortedList.map((item) => (
               <MyPlanCard
                 key={item.id}
                 item={item}

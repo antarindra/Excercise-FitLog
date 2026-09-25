@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
- images: {
+  images: {
+    unoptimized: true, 
     remotePatterns: [
       {
         protocol: 'https',
-        hostname:'img.magnific.com',
-        
+        hostname: 'img.magnific.com',
       },
     ],
   },
