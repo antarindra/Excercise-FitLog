@@ -12,7 +12,8 @@ interface WorkoutDetailsPageProps {
 }
 
 const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
-  const { id } = await params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   let workout: IWorkoutType | null = null;
 
   try {
@@ -39,27 +40,30 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
     );
   }
 
+
+  const calorieVal = workout.caloriesBurned !== undefined ? workout.caloriesBurned : workout.caloriesBurned;
+  const muscleList = workout.muscleGroups || (workout. muscleGroups ? [workout. muscleGroups] : []);
+
   return (
     <div className="min-h-screen bg-[#121318] text-white p-4 md:p-12 flex items-center justify-center">
       <div className="max-w-6xl w-full bg-[#181920] rounded-3xl p-6 md:p-10 border border-zinc-800/80 shadow-2xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           
-     
+        
           <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800">
             <Image
               src={workout.image}
               alt={workout.name}
               fill
-              className="object-cover"
+              className="object-cover object-top"
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
 
-        
+          
           <div className="flex flex-col justify-between h-full space-y-6">
             <div>
-              
               <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tight mb-3 text-white">
                 {workout.name}
               </h1>
@@ -67,17 +71,19 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
                 {workout.description}
               </p>
 
-              
-              <div className="flex flex-wrap gap-2 mb-6">
-                {workout.muscleGroups?.map((group, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-[#a3e635] text-black text-xs font-extrabold uppercase px-3 py-1 rounded-full"
-                  >
-                    {group}
-                  </span>
-                ))}
-              </div>
+             
+              {muscleList.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {muscleList.map((group, idx) => (
+                    <span
+                      key={idx}
+                      className="bg-[#a3e635] text-black text-xs font-extrabold uppercase px-3 py-1 rounded-full"
+                    >
+                      {group}
+                    </span>
+                  ))}
+                </div>
+              )}
 
             
               <div className="bg-[#121318] rounded-xl border border-zinc-800/80 p-4 sm:p-5 space-y-3.5 text-xs sm:text-sm">
@@ -103,7 +109,7 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
                 </div>
                 <div className="flex justify-between items-center text-gray-400">
                   <span className="font-semibold uppercase tracking-wider">Calories</span>
-                  <span className="text-white font-medium">{workout.caloriesBurned} kcal</span>
+                  <span className="text-white font-medium">{calorieVal} kcal</span>
                 </div>
                 <div className="flex justify-between items-center text-gray-400">
                   <span className="font-semibold uppercase tracking-wider">Rating</span>
@@ -111,7 +117,7 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
                 </div>
               </div>
 
-            
+              
               {workout.instructions && workout.instructions.length > 0 && (
                 <div className="mt-6">
                   <h3 className="text-white text-sm font-black uppercase tracking-wider mb-3">
@@ -128,10 +134,10 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
               )}
             </div>
 
-            
+           
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-            <TodaysPlanButton workout={workout} />
-            <SaveForLaterButton workout={workout} />
+              <TodaysPlanButton workout={workout} />
+              <SaveForLaterButton workout={workout} />
             </div>
 
           </div>
