@@ -4,7 +4,7 @@ A modern, responsive, and intuitive web application designed to help fitness ent
 
 ## 🌐 Live Demo
 
-Check out the live deployment here: [FitLog Live App](https://your-project-name.vercel.app)
+Check out the live deployment here: [FitLog Live App](https://excercise-fit-log.vercel.app/)
 
 ---
 
