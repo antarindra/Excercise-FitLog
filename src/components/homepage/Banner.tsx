@@ -22,7 +22,7 @@ const Banner = () => {
         <div className="flex-1 space-y-5">
           
           <p className="text-[#a3e635] text-xs md:text-sm font-bold tracking-widest uppercase">
-            WORKOUT LIBRARY
+            THE LIBRARY
           </p>
           
           
