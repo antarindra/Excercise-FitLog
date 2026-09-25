@@ -1,23 +1,33 @@
+'use client';
+
 import { IWorkoutType } from '@/types/WorkoutType';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
-export const WorkoutContext = createContext<(null) | { workouts:IWorkoutType[] }>(null);
+interface IWorkoutContextType {
+  todaysPlan: IWorkoutType[];
+  setTodaysPlan: React.Dispatch<React.SetStateAction<IWorkoutType[]>>;
+  saveForLater: IWorkoutType[];
+  setSaveForLater: React.Dispatch<React.SetStateAction<IWorkoutType[]>>;
+}
 
-const WorkoutProvider = ({ children }: { children: React.ReactNode }) => {
-    const [todaysPlan, setTodaysPlan] = useState<IWorkoutType[]>([]);
-    const[saveForLater,setSaveForLater]=useState<IWorkoutType[]>([]);
+export const WorkoutContext = createContext<IWorkoutContextType | null>(null);
 
-const sharedContextValue = {
-    workouts: todaysPlan,
-    setTodaysPlan,
-    saveForLater,
-    setSaveForLater
-  };
-    return (
-        <WorkoutContext.Provider value={sharedContextValue}>
-            {children}
-        </WorkoutContext.Provider>
-    );
+const WorkoutProvider = ({ children }: { children: ReactNode }) => {
+  const [todaysPlan, setTodaysPlan] = useState<IWorkoutType[]>([]);
+  const [saveForLater, setSaveForLater] = useState<IWorkoutType[]>([]);
+
+  return (
+    <WorkoutContext.Provider
+      value={{
+        todaysPlan,
+        setTodaysPlan,
+        saveForLater,
+        setSaveForLater,
+      }}
+    >
+      {children}
+    </WorkoutContext.Provider>
+  );
 };
 
 export default WorkoutProvider;
