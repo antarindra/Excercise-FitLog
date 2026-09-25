@@ -1,10 +1,10 @@
 import React from 'react';
 
-import WorkoutCard from '@/components/shared/WorkoutCard';
+import WorkoutCard from '../shared/WorkoutCard';
 import { IWorkoutType } from '@/types/WorkoutType';
 
 
-const WorkoutsPage = async () => {  
+const Workouts = async () => {
   let workouts = [];
 
   try {
@@ -23,16 +23,16 @@ const WorkoutsPage = async () => {
        
         <div className="text-center mb-10">
           <h2 className="text-white text-3xl md:text-5xl font-black uppercase tracking-tight mb-3">
-            THE ALL WORKOUT LIBRARY
+            THE LIBRARY
           </h2>
           <p className="text-gray-400 text-sm md:text-base">
-            All lifts covering every major muscle group.
+            Twelve lifts covering every major muscle group.
           </p>
         </div>
 
        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {workouts.map((workout: IWorkoutType) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {workouts.slice(0, 8).map((workout: IWorkoutType) => (
             <WorkoutCard key={workout.id} workout={workout} />
           ))}
         </div>
@@ -42,4 +42,4 @@ const WorkoutsPage = async () => {
   );
 };
 
-export default WorkoutsPage;
+export default Workouts;
