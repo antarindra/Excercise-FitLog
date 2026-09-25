@@ -35,8 +35,8 @@ const Navbar = () => {
           <ul className="flex items-center gap-2 text-sm">
             <li>
               <Link
-                href="/"
-                className={pathname === '/' || pathname === '/' ? activeClass : inactiveClass}
+                href="/workouts"
+                className={pathname === '/workouts' || pathname === '/' ? activeClass : inactiveClass}
               >
                 Workouts
               </Link>
