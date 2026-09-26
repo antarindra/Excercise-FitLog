@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import { IWorkoutType } from '@/types/WorkoutType';
 
 interface MyPlanCardProps {
@@ -20,9 +21,21 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
   onToggleDone,
   onRemove,
 }) => {
+
+  const handleDoneClick = () => {
+    if (isCompleted) {
+      
+      toast.error(`${item.name} is already marked as completed!`);
+    } else {
+      
+      onToggleDone(item.id);
+    }
+  };
+
   return (
     <div className="bg-[#181920] border border-zinc-800/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all">
       
+    
       <div className="flex items-center gap-4">
         <div className="relative w-24 h-16 sm:w-28 sm:h-20 rounded-xl overflow-hidden bg-zinc-900 flex-shrink-0">
           <Image
@@ -40,22 +53,20 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
             {item.equipment}
           </p>
 
-          
           <div className="flex items-center gap-3 text-xs text-gray-300 pt-1 font-semibold">
             <span className="flex items-center gap-1">
-               {item.duration} min
+              {item.duration} min
             </span>
             <span className="flex items-center gap-1">
-             {item.caloriesBurned} kcal
+              {item.caloriesBurned} kcal
             </span>
             <span className="flex items-center gap-1 text-yellow-400">
-               {item.rating}
+              {item.rating}
             </span>
           </div>
         </div>
       </div>
 
-     
       <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end pt-2 sm:pt-0">
         
         <Link
@@ -65,13 +76,12 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
           View Details
         </Link>
 
-       
         {activeTab === 'plan' && (
           <button
-            onClick={() => onToggleDone(item.id)}
+            onClick={handleDoneClick}
             className={`font-black text-xs px-4 py-2.5 rounded-xl transition-colors flex items-center gap-1.5 ${
               isCompleted
-                ? 'bg-zinc-800 text-gray-400'
+                ? 'bg-zinc-800 text-gray-400 cursor-default'
                 : 'bg-[#a3e635] text-black hover:bg-[#8ece25]'
             }`}
           >
@@ -82,7 +92,6 @@ const MyPlanCard: React.FC<MyPlanCardProps> = ({
           </button>
         )}
 
-        
         <button
           onClick={() => onRemove(item.id, item.name)}
           className="text-gray-500 hover:text-white p-2 text-lg transition-colors ml-1"

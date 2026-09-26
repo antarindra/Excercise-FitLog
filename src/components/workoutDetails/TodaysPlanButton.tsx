@@ -17,7 +17,7 @@ const TodaysPlanButton = ({ workout }: { workout: IWorkoutType }) => {
     const isAlreadyAdded = todaysPlan.some((item) => item.id === workout.id);
 
     if (isAlreadyAdded) {
-      toast.info(`${workout.name} is already in today's plan!`);
+      toast.error(`${workout.name} is already in today's plan!`);
       return;
     }
 

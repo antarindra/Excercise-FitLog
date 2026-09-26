@@ -17,7 +17,7 @@ const SaveForLaterButton = ({ workout }: { workout: IWorkoutType }) => {
     const isAlreadySaved = saveForLater.some((item) => item.id === workout.id);
 
     if (isAlreadySaved) {
-      toast.info(`${workout.name} is already saved for later!`);
+      toast.error(`${workout.name} is already saved for later!`);
       return;
     }
 
