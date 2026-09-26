@@ -8,7 +8,7 @@ const WorkoutsPage = async () => {
   let workouts = [];
 
   try {
-    const res = await fetch('https://api.abcz.workers.dev/api/fitlog', {
+    const res = await fetch('https://api.api-store.workers.dev/api/fitlog', {
       cache: 'no-store' 
     });
     workouts = await res.json();

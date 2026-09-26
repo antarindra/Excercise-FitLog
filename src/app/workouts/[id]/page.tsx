@@ -17,7 +17,7 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsPageProps) => {
   let workout: IWorkoutType | null = null;
 
   try {
-    const res = await fetch('https://api.abcz.workers.dev/api/fitlog', {
+    const res = await fetch('https://api.api-store.workers.dev/api/fitlog', {
       cache: 'no-store',
     });
     const workouts: IWorkoutType[] = await res.json();
